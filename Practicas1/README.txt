@@ -1,6 +1,6 @@
 # Java Fundamentos
 
-Este proyecto es un programa sencillo en Java hecho para practicar conceptos básicos de programación utilizando un menú interactivo en consola.
+Este proyecto es un programa sencillo en Java que consiste en un menú interactivo.
 
 ## ¿Qué hace?
 
