@@ -48,7 +48,7 @@ public abstract class Producto {
         this.precio = precio;
     }
     
-    // Método para mostrar información (puede ser sobrescrito)
+    // Método para mostrar información (Se usara para sobre escrubir)
     public void mostrarInfo() {
         System.out.println("Nombre: " + getNombre());
         System.out.println("Precio base: $" + getPrecio());
