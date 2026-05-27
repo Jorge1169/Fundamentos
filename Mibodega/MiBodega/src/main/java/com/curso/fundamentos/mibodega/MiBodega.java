@@ -5,7 +5,11 @@
 package com.curso.fundamentos.mibodega;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 /**
  *
@@ -15,6 +19,10 @@ import java.util.Scanner;
 public class MiBodega {
 
     private static final ArrayList<Producto> inventario = new ArrayList<>();
+    // Set: guarda una clave unica por producto para evitar registros duplicados.
+    private static final Set<String> clavesInventario = new HashSet<>();
+    // Set especifico para no repetir enlaces de productos digitales.
+    private static final Set<String> linksDigitales = new HashSet<>();
     private static final Scanner scanner = new Scanner(System.in);
     
     public static void main(String[] args) {
@@ -75,6 +83,11 @@ public class MiBodega {
             
             System.out.print("Peso (kg): ");
             double peso = Double.parseDouble(scanner.nextLine());
+
+            String clave = construirClaveProductoFisico(nombre, peso);
+            if (!clavesInventario.add(clave)) {
+                throw new IllegalArgumentException("Ya existe un producto físico con el mismo nombre y peso");
+            }
             
             ProductoFisico producto = new ProductoFisico(nombre, precio, peso);
             inventario.add(producto);
@@ -90,6 +103,8 @@ public class MiBodega {
     
     private static void registrarProductoDigital() {
         System.out.println("\n Registrar producto digital");
+        String linkNormalizado = null;
+        boolean rollbackLink = false;
         
         try {
             System.out.print("Nombre: ");
@@ -101,26 +116,45 @@ public class MiBodega {
             System.out.print("Link de descarga: ");
             String link = scanner.nextLine();
 
-            System.out.print("Tipo de producto digital (1 = Reproducible, 2 = Instalable): ");
-            String opcionTipo = scanner.nextLine();
+            linkNormalizado = link.trim().toLowerCase();
 
-            String tipoProducto;
-            if ("1".equals(opcionTipo.trim())) {
-                tipoProducto = "Reproducible";
-            } else if ("2".equals(opcionTipo.trim())) {
-                tipoProducto = "Instalable";
+            if (!linksDigitales.add(linkNormalizado)) {
+                throw new IllegalArgumentException("Ya existe un producto digital con ese link de descarga");
+            }
+            rollbackLink = true;
+
+            System.out.print("Tipo de producto digital (1 = Reproducible, 2 = Instalable): ");
+            String opcionTipo = scanner.nextLine().trim();
+
+            ProductoDigital producto;
+            // Aqui usamos interfaces creando la clase concreta segun el tipo elegido.
+            if ("1".equals(opcionTipo)) {
+                producto = new ProductoDigitalReproducible(nombre, precio, link);
+            } else if ("2".equals(opcionTipo)) {
+                producto = new ProductoDigitalInstalable(nombre, precio, link);
             } else {
-                tipoProducto = opcionTipo;
+                throw new IllegalArgumentException("Tipo inválido. Elija 1 o 2.");
+            }
+
+            String clave = construirClaveProductoDigital(nombre, producto.getTipoProducto(), link);
+            if (!clavesInventario.add(clave)) {
+                throw new IllegalArgumentException("Ya existe un producto digital con el mismo nombre, tipo y link");
             }
             
-            ProductoDigital producto = new ProductoDigital(nombre, precio, link, tipoProducto);
             inventario.add(producto);
+            rollbackLink = false;
             
             System.out.println("Producto digital registrado exitosamente!");
             
         } catch (IllegalArgumentException e) {
+            if (rollbackLink && linkNormalizado != null) {
+                linksDigitales.remove(linkNormalizado);
+            }
             System.out.println("Error: " + e.getMessage());
         } catch (Exception e) {
+            if (rollbackLink && linkNormalizado != null) {
+                linksDigitales.remove(linkNormalizado);
+            }
             System.out.println("Error: Dato inválido. Intente nuevamente.");
         }
     }
@@ -137,6 +171,11 @@ public class MiBodega {
             
             System.out.print("Fecha de servicio (YYYY-MM-DD): ");
             String fecha = scanner.nextLine();
+
+            String clave = construirClaveServicio(nombre, fecha);
+            if (!clavesInventario.add(clave)) {
+                throw new IllegalArgumentException("Ya existe un servicio con el mismo nombre y fecha");
+            }
             
             Servicio servicio = new Servicio(nombre, precio, fecha);
             inventario.add(servicio);
@@ -159,9 +198,19 @@ public class MiBodega {
             return;
         }
         
+        Map<String, Integer> cantidadPorTipo = new HashMap<>();
+
         // USO DEL ENCAPSULAMIENTO: Accedemos a los datos mediante getters
         for (Producto p : inventario) {
             p.mostrarInfo();  // Internamente usa getters
+
+            String tipo = p.getClass().getSimpleName();
+            cantidadPorTipo.put(tipo, cantidadPorTipo.getOrDefault(tipo, 0) + 1);
+        }
+
+        System.out.println("\nResumen por tipo (Map):");
+        for (Map.Entry<String, Integer> entry : cantidadPorTipo.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
         }
         
         System.out.println("Total de productos registrados: " + inventario.size());
@@ -177,16 +226,42 @@ public class MiBodega {
         }
         
         double total = 0;
+        Map<String, Double> totalPorTipo = new HashMap<>();
         
         // USO DEL ENCAPSULAMIENTO: Accedemos mediante métodos públicos
         for (Producto p : inventario) {
             double precioFinal = p.calcularPrecioFinal();
             total += precioFinal;
+
+            String tipo = p.getClass().getSimpleName();
+            totalPorTipo.put(tipo, totalPorTipo.getOrDefault(tipo, 0.0) + precioFinal);
+
             // Usamos getter para obtener el nombre
             System.out.println(p.getNombre() + " $" + String.format("%.2f", precioFinal));
+        }
+
+        System.out.println("\nResumen de totales por tipo (Map):");
+        for (Map.Entry<String, Double> entry : totalPorTipo.entrySet()) {
+            System.out.println(entry.getKey() + " -> $" + String.format("%.2f", entry.getValue()));
         }
         
         System.out.println("--------------------------------");
         System.out.println("TOTAL GENERAL: $" + String.format("%.2f", total));
+    }
+
+    private static String construirClaveProductoFisico(String nombre, double peso) {
+        return "FISICO|" + normalizar(nombre) + "|" + String.format("%.3f", peso);
+    }
+
+    private static String construirClaveProductoDigital(String nombre, String tipo, String link) {
+        return "DIGITAL|" + normalizar(nombre) + "|" + normalizar(tipo) + "|" + normalizar(link);
+    }
+
+    private static String construirClaveServicio(String nombre, String fecha) {
+        return "SERVICIO|" + normalizar(nombre) + "|" + normalizar(fecha);
+    }
+
+    private static String normalizar(String valor) {
+        return valor == null ? "" : valor.trim().toLowerCase();
     }
 }
