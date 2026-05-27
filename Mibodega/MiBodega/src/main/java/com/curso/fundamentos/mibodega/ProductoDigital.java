@@ -11,10 +11,12 @@ package com.curso.fundamentos.mibodega;
 public class ProductoDigital extends Producto {
     // Atributo privado
     private String linkDescarga;
+    private String tipoProducto;
     
-    public ProductoDigital(String nombre, double precio, String linkDescarga) {
+    public ProductoDigital(String nombre, double precio, String linkDescarga, String tipoProducto) {
         super(nombre, precio);
         setLinkDescarga(linkDescarga);  // Usando setter para validar
+        setTipoProducto(tipoProducto);  // Usando setter para validar
     }
     
     @Override
@@ -39,10 +41,30 @@ public class ProductoDigital extends Producto {
         }
         this.linkDescarga = linkDescarga;
     }
+
+    public String getTipoProducto() {
+        return tipoProducto;
+    }
+
+    public void setTipoProducto(String tipoProducto) {
+        if (tipoProducto == null || tipoProducto.trim().isEmpty()) {
+            throw new IllegalArgumentException("Debe indicar el tipo de producto digital");
+        }
+
+        String tipoNormalizado = tipoProducto.trim();
+        if (tipoNormalizado.equalsIgnoreCase("reproducible")) {
+            this.tipoProducto = "Reproducible";
+        } else if (tipoNormalizado.equalsIgnoreCase("instalable")) {
+            this.tipoProducto = "Instalable";
+        } else {
+            throw new IllegalArgumentException("Tipo inválido. Use Reproducible o Instalable");
+        }
+    }
     
     @Override
     public void mostrarInfo() {
         super.mostrarInfo();
+        System.out.println("Tipo: " + getTipoProducto());
         System.out.println("Link de descarga: " + getLinkDescarga());
         System.out.println("Impuesto digital (10%): $" + (getPrecio() * 0.10));
         System.out.println("Precio final: $" + calcularPrecioFinal());

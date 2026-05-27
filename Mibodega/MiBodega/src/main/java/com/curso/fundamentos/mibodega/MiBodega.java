@@ -100,8 +100,20 @@ public class MiBodega {
             
             System.out.print("Link de descarga: ");
             String link = scanner.nextLine();
+
+            System.out.print("Tipo de producto digital (1 = Reproducible, 2 = Instalable): ");
+            String opcionTipo = scanner.nextLine();
+
+            String tipoProducto;
+            if ("1".equals(opcionTipo.trim())) {
+                tipoProducto = "Reproducible";
+            } else if ("2".equals(opcionTipo.trim())) {
+                tipoProducto = "Instalable";
+            } else {
+                tipoProducto = opcionTipo;
+            }
             
-            ProductoDigital producto = new ProductoDigital(nombre, precio, link);
+            ProductoDigital producto = new ProductoDigital(nombre, precio, link, tipoProducto);
             inventario.add(producto);
             
             System.out.println("Producto digital registrado exitosamente!");
