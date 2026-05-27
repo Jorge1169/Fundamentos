@@ -28,7 +28,6 @@ public class Servicio extends Producto {
         return getPrecio() + iva;
     }
     
-    // ============ GETTERS Y SETTERS ============
     
     public String getFechaServicio() {
         return fechaServicio;
@@ -54,7 +53,7 @@ public class Servicio extends Producto {
     public void mostrarInfo() {
         super.mostrarInfo();
         System.out.println("Fecha de servicio: " + getFechaServicio());
-        System.out.println("IVA (16%): $" + (getPrecio() * 0.21));
+        System.out.println("IVA (16%): $" + (getPrecio() * 0.16));
         System.out.println("Precio final: $" + calcularPrecioFinal());
         System.out.println("------------------------");
     }

@@ -24,7 +24,6 @@ public class ProductoFisico extends Producto {
         return getPrecio() + costoEnvio;
     }
     
-    // ============ GETTERS Y SETTERS ESPECÍFICOS ============
     
     public double getPeso() {
         return peso;

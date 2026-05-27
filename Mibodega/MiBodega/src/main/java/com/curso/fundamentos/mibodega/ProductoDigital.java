@@ -24,8 +24,6 @@ public class ProductoDigital extends Producto {
         return getPrecio() + impuesto;
     }
     
-    // ============ GETTERS Y SETTERS ============
-    
     public String getLinkDescarga() {
         return linkDescarga;
     }
