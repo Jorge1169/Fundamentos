@@ -18,10 +18,12 @@ public class ProductoDigitalReproducible extends ProductoDigital implements Repr
     }
 
     @Override
-    public void mostrarInfo() {
-        super.mostrarInfo();
-        System.out.println("Modo de uso: Este producto digital se reproduce.");
+    protected String getModoUso() {
+        return "Este producto digital se reproduce.";
+    }
+
+    @Override
+    protected void mostrarAccionDisponible() {
         reproducir();
-        System.out.println("------------------------");
     }
 }

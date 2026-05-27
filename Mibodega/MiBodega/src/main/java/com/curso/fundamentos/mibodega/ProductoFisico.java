@@ -9,7 +9,8 @@ package com.curso.fundamentos.mibodega;
  * @author ADMIN
  */
 public class ProductoFisico extends Producto {
-    // Atributo privado (solo accesible dentro de esta clase)
+    private static final double COSTO_ENVIO_POR_KG = 5.0;
+
     private double peso; // en kg
     
     public ProductoFisico(String nombre, double precio, double peso) {
@@ -19,9 +20,7 @@ public class ProductoFisico extends Producto {
     
     @Override
     public double calcularPrecioFinal() {
-        // Producto físico: precio + costo de envío ($5 por kg)
-        double costoEnvio = getPeso() * 5;
-        return getPrecio() + costoEnvio;
+        return getPrecio() + calcularCostoEnvio();
     }
     
     
@@ -36,13 +35,17 @@ public class ProductoFisico extends Producto {
         }
         this.peso = peso;
     }
+
+    private double calcularCostoEnvio() {
+        return getPeso() * COSTO_ENVIO_POR_KG;
+    }
     
     @Override
     public void mostrarInfo() {
         super.mostrarInfo();
         System.out.println("Peso: " + getPeso() + " kg");
-        System.out.println("Costo de envío: $" + (getPeso() * 5));
-        System.out.println("Precio final: $" + calcularPrecioFinal());
-        System.out.println("------------------------");
+        imprimirMoneda("Costo de envío", calcularCostoEnvio());
+        imprimirPrecioFinal();
+        imprimirSeparador();
     }
 }

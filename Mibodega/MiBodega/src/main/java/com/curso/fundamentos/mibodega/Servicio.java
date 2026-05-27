@@ -13,7 +13,8 @@ import java.time.format.DateTimeParseException;
  * @author ADMIN
  */
 public class Servicio extends Producto {
-    // Atributo privado
+    private static final double IVA = 0.16;
+
     private String fechaServicio;
     
     public Servicio(String nombre, double precio, String fechaServicio) {
@@ -23,9 +24,7 @@ public class Servicio extends Producto {
     
     @Override
     public double calcularPrecioFinal() {
-        // Servicio: precio base + IVA del 16%
-        double iva = getPrecio() * 0.16;
-        return getPrecio() + iva;
+        return getPrecio() + calcularIva();
     }
     
     
@@ -48,13 +47,17 @@ public class Servicio extends Producto {
         
         this.fechaServicio = fechaServicio;
     }
+
+    private double calcularIva() {
+        return calcularIncrementoPorcentaje(IVA);
+    }
     
     @Override
     public void mostrarInfo() {
         super.mostrarInfo();
         System.out.println("Fecha de servicio: " + getFechaServicio());
-        System.out.println("IVA (16%): $" + (getPrecio() * 0.16));
-        System.out.println("Precio final: $" + calcularPrecioFinal());
-        System.out.println("------------------------");
+        imprimirMoneda("IVA (16%)", calcularIva());
+        imprimirPrecioFinal();
+        imprimirSeparador();
     }
 }

@@ -9,7 +9,8 @@ package com.curso.fundamentos.mibodega;
  * @author ADMIN
  */
 public abstract class ProductoDigital extends Producto {
-    // Atributo privado
+    private static final double IMPUESTO_DIGITAL = 0.10;
+
     private String linkDescarga;
     
     public ProductoDigital(String nombre, double precio, String linkDescarga) {
@@ -19,9 +20,7 @@ public abstract class ProductoDigital extends Producto {
     
     @Override
     public double calcularPrecioFinal() {
-        // Producto digital: precio base + impuesto digital del 10%
-        double impuesto = getPrecio() * 0.10;
-        return getPrecio() + impuesto;
+        return getPrecio() + calcularImpuestoDigital();
     }
     
     public String getLinkDescarga() {
@@ -42,13 +41,24 @@ public abstract class ProductoDigital extends Producto {
 
     // Este metodo lo implementa cada clase hija segun su tipo digital.
     public abstract String getTipoProducto();
+
+    protected abstract String getModoUso();
+
+    protected abstract void mostrarAccionDisponible();
+
+    private double calcularImpuestoDigital() {
+        return calcularIncrementoPorcentaje(IMPUESTO_DIGITAL);
+    }
     
     @Override
     public void mostrarInfo() {
         super.mostrarInfo();
         System.out.println("Tipo: " + getTipoProducto());
         System.out.println("Link de descarga: " + getLinkDescarga());
-        System.out.println("Impuesto digital (10%): $" + (getPrecio() * 0.10));
-        System.out.println("Precio final: $" + calcularPrecioFinal());
+        imprimirMoneda("Impuesto digital (10%)", calcularImpuestoDigital());
+        imprimirPrecioFinal();
+        System.out.println("Modo de uso: " + getModoUso());
+        mostrarAccionDisponible();
+        imprimirSeparador();
     }
 }

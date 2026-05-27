@@ -9,9 +9,10 @@ package com.curso.fundamentos.mibodega;
  * @author ADMIN
  */
 public abstract class Producto {
-    // Atributos protegidos (accesibles para clases hijas)
-    protected String nombre;
-    protected double precio;
+    private static final String SEPARADOR = "------------------------";
+
+    private String nombre;
+    private double precio;
     
     // Constructor
     public Producto(String nombre, double precio) {
@@ -51,6 +52,22 @@ public abstract class Producto {
     // Método para mostrar información (Se usara para sobre escrubir)
     public void mostrarInfo() {
         System.out.println("Nombre: " + getNombre());
-        System.out.println("Precio base: $" + getPrecio());
+        imprimirMoneda("Precio base", getPrecio());
+    }
+
+    protected void imprimirMoneda(String etiqueta, double valor) {
+        System.out.println(etiqueta + ": $" + String.format("%.2f", valor));
+    }
+
+    protected void imprimirPrecioFinal() {
+        imprimirMoneda("Precio final", calcularPrecioFinal());
+    }
+
+    protected void imprimirSeparador() {
+        System.out.println(SEPARADOR);
+    }
+
+    protected double calcularIncrementoPorcentaje(double porcentaje) {
+        return getPrecio() * porcentaje;
     }
 }

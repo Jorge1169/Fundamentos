@@ -18,10 +18,12 @@ public class ProductoDigitalInstalable extends ProductoDigital implements Instal
     }
 
     @Override
-    public void mostrarInfo() {
-        super.mostrarInfo();
-        System.out.println("Modo de uso: Este producto digital se instala.");
+    protected String getModoUso() {
+        return "Este producto digital se instala.";
+    }
+
+    @Override
+    protected void mostrarAccionDisponible() {
         instalar();
-        System.out.println("------------------------");
     }
 }
