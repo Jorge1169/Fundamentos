@@ -4,6 +4,8 @@
 
 package com.curso.fundamentos.sistemadetienda;
 
+import com.curso.fundamentos.sistemadetienda.app.Main;
+
 /**
  *
  * @author ADMIN
@@ -11,6 +13,6 @@ package com.curso.fundamentos.sistemadetienda;
 public class SistemaDeTienda {
 
     public static void main(String[] args) {
-        System.out.println("Mi tienda");
+        Main.main(args);
     }
 }
