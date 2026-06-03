@@ -11,6 +11,6 @@ package com.curso.fundamentos.sistemadetienda;
 public class SistemaDeTienda {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        System.out.println("Mi tienda");
     }
 }

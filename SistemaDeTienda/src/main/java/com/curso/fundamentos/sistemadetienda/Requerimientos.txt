@@ -1,0 +1,569 @@
+# SISTEMA DE TIENDA
+
+## Documento de Análisis y Diseño Técnico
+
+### Versión
+
+1.1
+
+### Lenguaje
+
+Java SE
+
+### IDE
+
+NetBeans
+
+### Tipo de Aplicación
+
+Aplicación CLI (Command Line Interface)
+
+---
+
+# 1. OBJETIVO DEL SISTEMA
+
+Desarrollar una aplicación de consola para administrar productos y servicios de una tienda.
+
+El sistema deberá permitir:
+
+* Registrar productos físicos.
+* Registrar productos digitales.
+* Registrar servicios.
+* Modificar registros existentes.
+* Consultar registros.
+* Aplicar reglas de negocio.
+* Calcular precios finales.
+* Manejar errores mediante excepciones personalizadas.
+
+---
+
+# 2. MODELO CONCEPTUAL
+
+Todos los elementos que maneja la tienda comparten:
+
+* Nombre
+* Precio base
+
+Por lo tanto, se define una clase abstracta denominada:
+
+ItemTienda
+
+Esta clase representará cualquier elemento registrable dentro del sistema.
+
+---
+
+# 3. REQUERIMIENTOS FUNCIONALES
+
+## RF-01 Registrar Producto Físico
+
+El sistema deberá permitir registrar:
+
+* Nombre
+* Precio base
+* Peso
+
+---
+
+## RF-02 Registrar Producto Digital
+
+El sistema deberá permitir registrar productos digitales de tipo:
+
+* Multimedia
+* Software
+
+---
+
+## RF-03 Registrar Producto Multimedia
+
+El sistema deberá permitir registrar:
+
+* Nombre
+* Precio base
+* Link de descarga
+* Formato multimedia
+
+---
+
+## RF-04 Registrar Producto Software
+
+El sistema deberá permitir registrar:
+
+* Nombre
+* Precio base
+* Link de descarga
+* Sistema operativo compatible
+
+---
+
+## RF-05 Registrar Servicio
+
+El sistema deberá permitir registrar:
+
+* Nombre
+* Precio base
+* Fecha del servicio
+
+---
+
+## RF-06 Mostrar Registros
+
+El sistema deberá mostrar todos los elementos registrados.
+
+---
+
+## RF-07 Modificar Registro
+
+El sistema deberá permitir modificar:
+
+* Producto físico
+* Multimedia
+* Software
+* Servicio
+
+La búsqueda deberá realizarse por:
+
+* Tipo
+* Nombre
+
+---
+
+## RF-08 Calcular Precio Final
+
+El sistema deberá calcular automáticamente el precio final de cada elemento según su tipo.
+
+---
+
+# 4. REGLAS DE NEGOCIO
+
+## Generales
+
+RN-01 Todo elemento debe tener nombre.
+
+RN-02 El nombre es obligatorio.
+
+RN-03 El nombre no puede estar vacío.
+
+RN-04 El nombre no puede contener únicamente espacios.
+
+RN-05 El nombre debe contener entre 3 y 50 caracteres.
+
+RN-06 Todo elemento debe tener precio base.
+
+RN-07 El precio base debe ser mayor a cero.
+
+RN-08 El precio base no puede exceder $100,000.
+
+RN-09 No pueden existir dos elementos del mismo tipo con el mismo nombre.
+
+RN-10 Se permite repetir nombres entre tipos distintos.
+
+RN-11 El precio final nunca puede ser menor al precio base.
+
+RN-12 Al modificar un elemento se aplicarán las mismas validaciones que durante el registro.
+
+RN-13 Si se modifica el nombre deberá mantenerse la unicidad por tipo.
+
+---
+
+## Productos Físicos
+
+RN-14 Todo producto físico debe registrar peso.
+
+RN-15 El peso es obligatorio.
+
+RN-16 El peso debe ser mayor a cero.
+
+RN-17 Si el peso es mayor a 20 kg se agregará un recargo fijo de $150.
+
+---
+
+## Productos Digitales
+
+RN-18 Todo producto digital debe registrar link de descarga.
+
+RN-19 El link es obligatorio.
+
+RN-20 El link no puede estar vacío.
+
+RN-21 El link no puede contener únicamente espacios.
+
+RN-22 El link debe iniciar con:
+
+* http://
+* https://
+
+RN-23 El link no debe contener caracteres inválidos.
+
+---
+
+## Productos Multimedia
+
+RN-24 Todo producto multimedia debe registrar formato multimedia.
+
+RN-25 El formato es obligatorio.
+
+RN-26 Formatos permitidos:
+
+* MP4
+* MP3
+* GIF
+* JPG
+
+RN-27 Debe poder reproducirse.
+
+RN-28 No debe poder instalarse.
+
+---
+
+## Productos Software
+
+RN-29 Todo producto software debe registrar sistema operativo compatible.
+
+RN-30 El sistema operativo es obligatorio.
+
+RN-31 Sistemas operativos válidos:
+
+* Windows
+* Mac
+* Linux
+* Multiplataforma
+
+RN-32 Debe poder instalarse.
+
+RN-33 No debe poder reproducirse.
+
+---
+
+## Servicios
+
+RN-34 Todo servicio debe registrar fecha del servicio.
+
+RN-35 La fecha es obligatoria.
+
+RN-36 Debe tener formato válido.
+
+RN-37 Debe capturarse utilizando:
+
+dd/MM/yyyy
+
+RN-38 Debe ser posterior a la fecha actual.
+
+RN-39 El precio final deberá incluir un cargo adicional del 10%.
+
+---
+
+# 5. DISEÑO ORIENTADO A OBJETOS
+
+## Clase Abstracta Principal
+
+ItemTienda
+
+Atributos comunes:
+
+* nombre
+* precioBase
+
+Métodos comunes:
+
+* getNombre()
+* setNombre()
+* getPrecioBase()
+* setPrecioBase()
+
+Método abstracto:
+
+* calcularPrecioFinal()
+
+---
+
+# 6. DIAGRAMA DE HERENCIA
+
+ItemTienda
+│
+├── Producto
+│   │
+│   ├── ProductoFisico
+│   │
+│   └── ProductoDigital
+│       │
+│       ├── Multimedia
+│       │
+│       └── Software
+│
+└── Servicio
+
+---
+
+# 7. DIAGRAMA DE INTERFACES
+
+Reproducible
+▲
+│
+Multimedia
+
+Instalable
+▲
+│
+Software
+
+---
+
+# 8. INTERFACES DEL SISTEMA
+
+## Interface Reproducible
+
+Responsabilidad:
+
+Representar elementos que pueden reproducirse.
+
+Método:
+
+* reproducir()
+
+Implementada por:
+
+* Multimedia
+
+---
+
+## Interface Instalable
+
+Responsabilidad:
+
+Representar elementos que pueden instalarse.
+
+Método:
+
+* instalar()
+
+Implementada por:
+
+* Software
+
+---
+
+# 9. POLIMORFISMO
+
+Todos los elementos del sistema deberán almacenarse en una única colección.
+
+Ejemplo conceptual:
+
+List<ItemTienda> items = new ArrayList<>();
+
+La colección deberá aceptar:
+
+* ProductoFisico
+* Multimedia
+* Software
+* Servicio
+
+mediante polimorfismo.
+
+---
+
+# 10. CÁLCULO DE PRECIO FINAL
+
+## ProductoFisico
+
+Si peso > 20
+
+precioFinal = precioBase + 150
+
+En otro caso:
+
+precioFinal = precioBase
+
+---
+
+## Multimedia
+
+precioFinal = precioBase
+
+---
+
+## Software
+
+precioFinal = precioBase
+
+---
+
+## Servicio
+
+precioFinal = precioBase + (precioBase × 0.10)
+
+---
+
+# 11. ESTRUCTURA DE PAQUETES
+
+src
+│
+├── app
+│   └── Main.java
+│
+├── model
+│   ├── ItemTienda.java
+│   ├── Producto.java
+│   ├── ProductoFisico.java
+│   ├── ProductoDigital.java
+│   ├── Multimedia.java
+│   ├── Software.java
+│   └── Servicio.java
+│
+├── interfaces
+│   ├── Reproducible.java
+│   └── Instalable.java
+│
+├── service
+│   ├── TiendaService.java
+│   └── ValidacionService.java
+│
+└── exception
+├── ReglaNegocioException.java
+├── ProductoDuplicadoException.java
+└── DatoInvalidoException.java
+
+---
+
+# 12. RESPONSABILIDADES POR CAPA
+
+## Main
+
+Responsable de:
+
+* Mostrar menús
+* Capturar datos
+* Mostrar resultados
+* Invocar servicios
+
+No deberá contener lógica de negocio.
+
+---
+
+## Service
+
+Responsable de:
+
+* Registrar
+* Buscar
+* Modificar
+* Validar
+* Calcular precios finales
+
+Toda la lógica del negocio deberá residir aquí.
+
+---
+
+## Model
+
+Representar entidades del dominio.
+
+---
+
+## Interfaces
+
+Representar capacidades especiales.
+
+---
+
+## Exception
+
+Representar errores de negocio.
+
+---
+
+# 13. MENÚS DEL SISTEMA
+
+## Menú Principal
+
+===== SISTEMA DE TIENDA =====
+
+1. Registrar
+2. Mostrar Registros
+3. Modificar Registro
+4. Salir
+
+Seleccione una opción:
+
+---
+
+## Menú Registrar
+
+===== REGISTRAR =====
+
+1. Producto Físico
+2. Producto Digital
+3. Servicio
+4. Regresar
+
+Seleccione una opción:
+
+---
+
+## Menú Producto Digital
+
+===== PRODUCTO DIGITAL =====
+
+1. Multimedia
+2. Software
+3. Regresar
+
+Seleccione una opción:
+
+---
+
+## Menú Modificar
+
+===== MODIFICAR REGISTRO =====
+
+1. Producto Físico
+2. Multimedia
+3. Software
+4. Servicio
+5. Regresar
+
+Seleccione una opción:
+
+---
+
+# 14. MANEJO DE ERRORES
+
+El sistema deberá:
+
+* Controlar errores mediante try-catch.
+* Evitar cierres inesperados.
+* Manejar entradas inválidas.
+* Detectar letras donde se esperan números.
+* Mostrar mensajes claros al usuario.
+* Utilizar excepciones personalizadas para reglas de negocio.
+
+---
+
+# 15. DOCUMENTACIÓN
+
+Todos los métodos deberán contener JavaDoc.
+
+Excepciones:
+
+* getters
+* setters
+* main
+
+---
+
+# 16. CRITERIOS DE ACEPTACIÓN
+
+El sistema será aceptado cuando:
+
+* Compile sin errores.
+* Permita registrar todos los tipos requeridos.
+* Permita modificar registros.
+* Permita consultar registros.
+* Utilice herencia.
+* Utilice polimorfismo.
+* Utilice interfaces.
+* Utilice encapsulamiento.
+* Utilice excepciones personalizadas.
+* Utilice colecciones.
+* Mantenga separación por capas.
+* Cumpla todas las reglas de negocio.
+* Incluya JavaDoc en los métodos requeridos.
