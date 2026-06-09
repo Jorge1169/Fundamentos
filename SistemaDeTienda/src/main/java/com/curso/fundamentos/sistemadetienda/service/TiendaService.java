@@ -18,6 +18,9 @@ import java.util.List;
 public class TiendaService {
 
     private final List<ItemTienda> items = new ArrayList<>();
+    
+    private record DatosBase(String nombre, double precioBase) {
+    }
 
     /**
      * Registra un producto fisico aplicando las reglas del dominio.
@@ -28,11 +31,10 @@ public class TiendaService {
      * @throws ReglaNegocioException cuando algun dato es invalido
      */
     public void registrarProductoFisico(String nombre, double precioBase, double peso) throws ReglaNegocioException {
-        String nombreValidado = ValidacionService.validarNombre(nombre);
-        double precioValidado = ValidacionService.validarPrecioBase(precioBase);
+        DatosBase datosBase = validarDatosBase(nombre, precioBase);
         double pesoValidado = ValidacionService.validarPeso(peso);
-        ValidacionService.validarNombreUnico(items, ProductoFisico.class, nombreValidado, null);
-        items.add(new ProductoFisico(nombreValidado, precioValidado, pesoValidado));
+        ValidacionService.validarNombreUnico(items, ProductoFisico.class, datosBase.nombre(), null);
+        items.add(new ProductoFisico(datosBase.nombre(), datosBase.precioBase(), pesoValidado));
     }
 
     /**
@@ -46,12 +48,11 @@ public class TiendaService {
      */
     public void registrarMultimedia(String nombre, double precioBase, String linkDescarga, String formato)
             throws ReglaNegocioException {
-        String nombreValidado = ValidacionService.validarNombre(nombre);
-        double precioValidado = ValidacionService.validarPrecioBase(precioBase);
+        DatosBase datosBase = validarDatosBase(nombre, precioBase);
         String linkValidado = ValidacionService.validarLink(linkDescarga);
         String formatoValidado = ValidacionService.validarFormatoMultimedia(formato);
-        ValidacionService.validarNombreUnico(items, Multimedia.class, nombreValidado, null);
-        items.add(new Multimedia(nombreValidado, precioValidado, linkValidado, formatoValidado));
+        ValidacionService.validarNombreUnico(items, Multimedia.class, datosBase.nombre(), null);
+        items.add(new Multimedia(datosBase.nombre(), datosBase.precioBase(), linkValidado, formatoValidado));
     }
 
     /**
@@ -65,12 +66,11 @@ public class TiendaService {
      */
     public void registrarSoftware(String nombre, double precioBase, String linkDescarga, String sistemaOperativo)
             throws ReglaNegocioException {
-        String nombreValidado = ValidacionService.validarNombre(nombre);
-        double precioValidado = ValidacionService.validarPrecioBase(precioBase);
+        DatosBase datosBase = validarDatosBase(nombre, precioBase);
         String linkValidado = ValidacionService.validarLink(linkDescarga);
         String sistemaOperativoValidado = ValidacionService.validarSistemaOperativo(sistemaOperativo);
-        ValidacionService.validarNombreUnico(items, Software.class, nombreValidado, null);
-        items.add(new Software(nombreValidado, precioValidado, linkValidado, sistemaOperativoValidado));
+        ValidacionService.validarNombreUnico(items, Software.class, datosBase.nombre(), null);
+        items.add(new Software(datosBase.nombre(), datosBase.precioBase(), linkValidado, sistemaOperativoValidado));
     }
 
     /**
@@ -82,11 +82,10 @@ public class TiendaService {
      * @throws ReglaNegocioException cuando algun dato es invalido
      */
     public void registrarServicio(String nombre, double precioBase, String fechaServicio) throws ReglaNegocioException {
-        String nombreValidado = ValidacionService.validarNombre(nombre);
-        double precioValidado = ValidacionService.validarPrecioBase(precioBase);
+        DatosBase datosBase = validarDatosBase(nombre, precioBase);
         LocalDate fechaValidada = ValidacionService.validarFechaServicio(fechaServicio);
-        ValidacionService.validarNombreUnico(items, Servicio.class, nombreValidado, null);
-        items.add(new Servicio(nombreValidado, precioValidado, fechaValidada));
+        ValidacionService.validarNombreUnico(items, Servicio.class, datosBase.nombre(), null);
+        items.add(new Servicio(datosBase.nombre(), datosBase.precioBase(), fechaValidada));
     }
 
     /**
@@ -110,12 +109,11 @@ public class TiendaService {
     public void modificarProductoFisico(String nombreActual, String nuevoNombre, double precioBase, double peso)
             throws ReglaNegocioException {
         ProductoFisico producto = buscarPorTipoYNombre(ProductoFisico.class, nombreActual);
-        String nombreValidado = ValidacionService.validarNombre(nuevoNombre);
-        double precioValidado = ValidacionService.validarPrecioBase(precioBase);
+        DatosBase datosBase = validarDatosBase(nuevoNombre, precioBase);
         double pesoValidado = ValidacionService.validarPeso(peso);
-        ValidacionService.validarNombreUnico(items, ProductoFisico.class, nombreValidado, producto);
-        producto.setNombre(nombreValidado);
-        producto.setPrecioBase(precioValidado);
+        ValidacionService.validarNombreUnico(items, ProductoFisico.class, datosBase.nombre(), producto);
+        producto.setNombre(datosBase.nombre());
+        producto.setPrecioBase(datosBase.precioBase());
         producto.setPeso(pesoValidado);
     }
 
@@ -132,13 +130,12 @@ public class TiendaService {
     public void modificarMultimedia(String nombreActual, String nuevoNombre, double precioBase, String linkDescarga,
             String formato) throws ReglaNegocioException {
         Multimedia multimedia = buscarPorTipoYNombre(Multimedia.class, nombreActual);
-        String nombreValidado = ValidacionService.validarNombre(nuevoNombre);
-        double precioValidado = ValidacionService.validarPrecioBase(precioBase);
+        DatosBase datosBase = validarDatosBase(nuevoNombre, precioBase);
         String linkValidado = ValidacionService.validarLink(linkDescarga);
         String formatoValidado = ValidacionService.validarFormatoMultimedia(formato);
-        ValidacionService.validarNombreUnico(items, Multimedia.class, nombreValidado, multimedia);
-        multimedia.setNombre(nombreValidado);
-        multimedia.setPrecioBase(precioValidado);
+        ValidacionService.validarNombreUnico(items, Multimedia.class, datosBase.nombre(), multimedia);
+        multimedia.setNombre(datosBase.nombre());
+        multimedia.setPrecioBase(datosBase.precioBase());
         multimedia.setLinkDescarga(linkValidado);
         multimedia.setFormato(formatoValidado);
     }
@@ -156,13 +153,12 @@ public class TiendaService {
     public void modificarSoftware(String nombreActual, String nuevoNombre, double precioBase, String linkDescarga,
             String sistemaOperativo) throws ReglaNegocioException {
         Software software = buscarPorTipoYNombre(Software.class, nombreActual);
-        String nombreValidado = ValidacionService.validarNombre(nuevoNombre);
-        double precioValidado = ValidacionService.validarPrecioBase(precioBase);
+        DatosBase datosBase = validarDatosBase(nuevoNombre, precioBase);
         String linkValidado = ValidacionService.validarLink(linkDescarga);
         String sistemaOperativoValidado = ValidacionService.validarSistemaOperativo(sistemaOperativo);
-        ValidacionService.validarNombreUnico(items, Software.class, nombreValidado, software);
-        software.setNombre(nombreValidado);
-        software.setPrecioBase(precioValidado);
+        ValidacionService.validarNombreUnico(items, Software.class, datosBase.nombre(), software);
+        software.setNombre(datosBase.nombre());
+        software.setPrecioBase(datosBase.precioBase());
         software.setLinkDescarga(linkValidado);
         software.setSistemaOperativo(sistemaOperativoValidado);
     }
@@ -179,13 +175,26 @@ public class TiendaService {
     public void modificarServicio(String nombreActual, String nuevoNombre, double precioBase, String fechaServicio)
             throws ReglaNegocioException {
         Servicio servicio = buscarPorTipoYNombre(Servicio.class, nombreActual);
-        String nombreValidado = ValidacionService.validarNombre(nuevoNombre);
-        double precioValidado = ValidacionService.validarPrecioBase(precioBase);
+        DatosBase datosBase = validarDatosBase(nuevoNombre, precioBase);
         LocalDate fechaValidada = ValidacionService.validarFechaServicio(fechaServicio);
-        ValidacionService.validarNombreUnico(items, Servicio.class, nombreValidado, servicio);
-        servicio.setNombre(nombreValidado);
-        servicio.setPrecioBase(precioValidado);
+        ValidacionService.validarNombreUnico(items, Servicio.class, datosBase.nombre(), servicio);
+        servicio.setNombre(datosBase.nombre());
+        servicio.setPrecioBase(datosBase.precioBase());
         servicio.setFechaServicio(fechaValidada);
+    }
+
+    /**
+     * Valida los datos compartidos por todos los elementos de la tienda.
+     *
+     * @param nombre nombre capturado desde la interfaz
+     * @param precioBase precio base capturado desde la interfaz
+     * @return datos base validados y listos para usar
+     * @throws DatoInvalidoException cuando alguno de los valores es invalido
+     */
+    private DatosBase validarDatosBase(String nombre, double precioBase) throws DatoInvalidoException {
+        return new DatosBase(
+                ValidacionService.validarNombre(nombre),
+                ValidacionService.validarPrecioBase(precioBase));
     }
 
     /**
