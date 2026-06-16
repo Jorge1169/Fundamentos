@@ -1,12 +1,18 @@
-package com.curso.refactor;
+package com.curso.refactor.model;
+
+import com.curso.refactor.enums.FormatoVideo;
+import com.curso.refactor.enums.NivelRecurso;
+import com.curso.refactor.enums.TipoRecurso;
+import com.curso.refactor.interfaces.Certificable;
+import com.curso.refactor.interfaces.Reproducible;
 
 public class CursoVideo extends RecursoDigital implements Reproducible, Certificable {
 
     private int duracionHoras;
-    private String formatoVideo;
+    private FormatoVideo formatoVideo;
 
-    public CursoVideo(String nombre, double precioBase, String nivel, int duracionHoras,
-            String urlDescarga, String formatoVideo) {
+    public CursoVideo(String nombre, double precioBase, NivelRecurso nivel, int duracionHoras,
+            String urlDescarga, FormatoVideo formatoVideo) {
         super(nombre, precioBase, nivel, urlDescarga);
         this.duracionHoras = duracionHoras;
         this.formatoVideo = formatoVideo;
@@ -20,11 +26,11 @@ public class CursoVideo extends RecursoDigital implements Reproducible, Certific
         this.duracionHoras = duracionHoras;
     }
 
-    public String getFormatoVideo() {
+    public FormatoVideo getFormatoVideo() {
         return formatoVideo;
     }
 
-    public void setFormatoVideo(String formatoVideo) {
+    public void setFormatoVideo(FormatoVideo formatoVideo) {
         this.formatoVideo = formatoVideo;
     }
 
@@ -40,8 +46,8 @@ public class CursoVideo extends RecursoDigital implements Reproducible, Certific
     }
 
     @Override
-    public String obtenerTipo() {
-        return "VIDEO";
+    public TipoRecurso obtenerTipo() {
+        return TipoRecurso.VIDEO;
     }
 
     @Override
@@ -58,7 +64,8 @@ public class CursoVideo extends RecursoDigital implements Reproducible, Certific
     public void mostrarDetalle() {
         System.out.println("=== Curso en video ===");
         super.mostrarDetalle();
-        System.out.println("Duración: " + duracionHoras + " horas");
-        System.out.println("Formato: " + formatoVideo);
+        System.out.println("DuraciÃ³n: " + duracionHoras + " horas");
+        System.out.println("Formato: " + formatoVideo.name());
     }
 }
+

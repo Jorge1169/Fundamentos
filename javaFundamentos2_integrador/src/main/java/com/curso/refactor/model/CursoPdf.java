@@ -1,12 +1,17 @@
-package com.curso.refactor;
+package com.curso.refactor.model;
+
+import com.curso.refactor.enums.FormatoDocumento;
+import com.curso.refactor.enums.NivelRecurso;
+import com.curso.refactor.enums.TipoRecurso;
+import com.curso.refactor.interfaces.Certificable;
 
 public class CursoPdf extends RecursoDigital implements Certificable {
 
     private int numeroPaginas;
-    private String formatoDocumento;
+    private FormatoDocumento formatoDocumento;
 
-    public CursoPdf(String nombre, double precioBase, String nivel, int numeroPaginas,
-            String urlDescarga, String formatoDocumento) {
+    public CursoPdf(String nombre, double precioBase, NivelRecurso nivel, int numeroPaginas,
+            String urlDescarga, FormatoDocumento formatoDocumento) {
         super(nombre, precioBase, nivel, urlDescarga);
         this.numeroPaginas = numeroPaginas;
         this.formatoDocumento = formatoDocumento;
@@ -20,11 +25,11 @@ public class CursoPdf extends RecursoDigital implements Certificable {
         this.numeroPaginas = numeroPaginas;
     }
 
-    public String getFormatoDocumento() {
+    public FormatoDocumento getFormatoDocumento() {
         return formatoDocumento;
     }
 
-    public void setFormatoDocumento(String formatoDocumento) {
+    public void setFormatoDocumento(FormatoDocumento formatoDocumento) {
         this.formatoDocumento = formatoDocumento;
     }
 
@@ -40,8 +45,8 @@ public class CursoPdf extends RecursoDigital implements Certificable {
     }
 
     @Override
-    public String obtenerTipo() {
-        return "PDF";
+    public TipoRecurso obtenerTipo() {
+        return TipoRecurso.PDF;
     }
 
     @Override
@@ -53,7 +58,8 @@ public class CursoPdf extends RecursoDigital implements Certificable {
     public void mostrarDetalle() {
         System.out.println("=== Curso PDF ===");
         super.mostrarDetalle();
-        System.out.println("Páginas: " + numeroPaginas);
-        System.out.println("Formato: " + formatoDocumento);
+        System.out.println("PÃ¡ginas: " + numeroPaginas);
+        System.out.println("Formato: " + formatoDocumento.name());
     }
 }
+

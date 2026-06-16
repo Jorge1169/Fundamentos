@@ -1,10 +1,13 @@
-package com.curso.refactor;
+package com.curso.refactor.model;
+
+import com.curso.refactor.enums.NivelRecurso;
+import com.curso.refactor.interfaces.Descargable;
 
 public abstract class RecursoDigital extends RecursoAcademico implements Descargable {
 
     private String urlDescarga;
 
-    public RecursoDigital(String nombre, double precioBase, String nivel, String urlDescarga) {
+    public RecursoDigital(String nombre, double precioBase, NivelRecurso nivel, String urlDescarga) {
         super(nombre, precioBase, nivel);
         this.urlDescarga = urlDescarga;
     }
@@ -33,3 +36,4 @@ public abstract class RecursoDigital extends RecursoAcademico implements Descarg
         System.out.println("URL descarga: " + urlDescarga);
     }
 }
+

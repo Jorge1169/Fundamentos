@@ -1,14 +1,18 @@
-package com.curso.refactor;
+package com.curso.refactor.model;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
+import com.curso.refactor.enums.NivelRecurso;
+import com.curso.refactor.enums.TipoRecurso;
+import com.curso.refactor.interfaces.Agendable;
 
 public class Mentoria extends RecursoAcademico implements Agendable {
 
     private LocalDate fechaProgramada;
     private String mentor;
 
-    public Mentoria(String nombre, double precioBase, String nivel, LocalDate fechaProgramada, String mentor) {
+    public Mentoria(String nombre, double precioBase, NivelRecurso nivel, LocalDate fechaProgramada, String mentor) {
         super(nombre, precioBase, nivel);
         this.fechaProgramada = fechaProgramada;
         this.mentor = mentor;
@@ -36,22 +40,23 @@ public class Mentoria extends RecursoAcademico implements Agendable {
     }
 
     @Override
-    public String obtenerTipo() {
-        return "MENTORIA";
+    public TipoRecurso obtenerTipo() {
+        return TipoRecurso.MENTORIA;
     }
 
     @Override
     public void agendar() {
-        System.out.println("Agendando mentoría con " + mentor);
+        System.out.println("Agendando mentorÃ­a con " + mentor);
     }
 
     @Override
     public void mostrarDetalle() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        System.out.println("=== Mentoría ===");
+        System.out.println("=== MentorÃ­a ===");
         super.mostrarDetalle();
         System.out.println("Fecha: " + fechaProgramada.format(formatter));
         System.out.println("Mentor: " + mentor);
     }
 }
+
