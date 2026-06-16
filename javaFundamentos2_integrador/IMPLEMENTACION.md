@@ -11,6 +11,34 @@ Documentar todo lo que se puede mejorar en el proyecto segun los requerimientos 
   - `GuiaRefactorizacion`
   - Enums ya existentes: `NivelRecurso`, `TipoRecurso`, `FormatoVideo`, `FormatoDocumento`
 
+## Reorganizacion en paquetes (carpetas)
+Objetivo: mejorar mantenibilidad, separar responsabilidades y facilitar futuras ampliaciones.
+
+Estructura propuesta bajo `src/main/java/com/curso/refactor`:
+
+- `app`
+  - `JavaFundamentos2` (punto de entrada y menu)
+- `service`
+  - `AcademiaService` (casos de uso del dominio)
+- `model`
+  - `RecursoAcademico`, `RecursoDigital`, `CursoVideo`, `CursoPdf`, `Mentoria`
+- `model/enums`
+  - `NivelRecurso`, `TipoRecurso`, `FormatoVideo`, `FormatoDocumento`
+- `model/interfaces`
+  - `Agendable`, `Certificable`, `Descargable`, `Reproducible`
+- `exception`
+  - `AcademiaException`, `RecursoInvalidoException`, `RecursoDuplicadoException`, `RecursoNoEncontradoException`
+- `functional`
+  - `OperacionAcademia`
+- `util` (nuevo)
+  - `ValidadorAcademia` (nuevo, para reglas reutilizables)
+  - `Parseadores` o metodos estaticos para convertir texto a enums (opcional)
+
+Notas de migracion:
+- Primero mover paquetes sin cambiar logica, ajustando imports.
+- Luego aplicar refactor funcional por fases para evitar romper compilacion.
+- Mantener nombres de clases para minimizar impacto en el ejercicio.
+
 ## Diagnostico actual (resumen)
 - El proyecto funciona y compila.
 - Existen validaciones repetidas entre registrar y modificar.
@@ -169,6 +197,49 @@ Documentar todo lo que se puede mejorar en el proyecto segun los requerimientos 
 - Duplicados, busquedas y resumen usan Streams.
 - Manejo de excepciones centralizado en `Main`.
 - Menor duplicacion medible entre registrar/modificar.
+
+## Referencias de archivos a modificar y por que
+
+### Archivos principales
+- [src/main/java/com/curso/refactor/AcademiaService.java](src/main/java/com/curso/refactor/AcademiaService.java)
+  - Reemplazar Strings magicos por enums en logica core.
+  - Extraer validaciones repetidas a utilidades compartidas.
+  - Migrar busquedas a Optional.
+  - Migrar duplicados, busquedas y resumen a Streams.
+  - Reducir metodos largos y duplicacion entre registrar/modificar.
+
+- [src/main/java/com/curso/refactor/JavaFundamentos2.java](src/main/java/com/curso/refactor/JavaFundamentos2.java)
+  - Centralizar manejo de errores con `OperacionAcademia`.
+  - Adaptar lectura de consola para parseo seguro a enums.
+  - Consumir busquedas con Optional (`ifPresentOrElse`).
+  - Mejorar legibilidad del flujo del menu.
+
+- [src/main/java/com/curso/refactor/OperacionAcademia.java](src/main/java/com/curso/refactor/OperacionAcademia.java)
+  - Confirmar/ajustar contrato funcional para ejecutar operaciones con excepciones controladas desde el Main.
+
+### Enums y parseo
+- [src/main/java/com/curso/refactor/NivelRecurso.java](src/main/java/com/curso/refactor/NivelRecurso.java)
+  - Agregar parseo desde texto (`fromTexto`) con mensajes de error claros.
+
+- [src/main/java/com/curso/refactor/TipoRecurso.java](src/main/java/com/curso/refactor/TipoRecurso.java)
+  - Agregar parseo desde texto para evitar comparaciones por String.
+
+- [src/main/java/com/curso/refactor/FormatoVideo.java](src/main/java/com/curso/refactor/FormatoVideo.java)
+  - Agregar parseo seguro para entrada de consola.
+
+- [src/main/java/com/curso/refactor/FormatoDocumento.java](src/main/java/com/curso/refactor/FormatoDocumento.java)
+  - Agregar parseo seguro para entrada de consola.
+
+### Documentacion del reto
+- [src/main/java/com/curso/refactor/GuiaRefactorizacion.java](src/main/java/com/curso/refactor/GuiaRefactorizacion.java)
+  - Alinear instrucciones con la reorganizacion por paquetes y el orden de implementacion por fases.
+
+### Archivos nuevos propuestos
+- `src/main/java/com/curso/refactor/util/ValidadorAcademia.java`
+  - Centralizar validaciones reutilizables y reglas de negocio transversales.
+
+- `src/main/java/com/curso/refactor/util/EnumParser.java` (opcional)
+  - Reutilizar conversion de texto a enums y estandarizar errores de parseo.
 
 ## Siguiente paso sugerido
 Aplicar los cambios por fases en `AcademiaService` y `JavaFundamentos2`, validando compilacion tras cada fase.
