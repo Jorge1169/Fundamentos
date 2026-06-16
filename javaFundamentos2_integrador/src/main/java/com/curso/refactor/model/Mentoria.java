@@ -46,14 +46,14 @@ public class Mentoria extends RecursoAcademico implements Agendable {
 
     @Override
     public void agendar() {
-        System.out.println("Agendando mentorÃ­a con " + mentor);
+        System.out.println("Agendando mentoría con " + mentor);
     }
 
     @Override
     public void mostrarDetalle() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        System.out.println("=== MentorÃ­a ===");
+        System.out.println("=== Mentoría ===");
         super.mostrarDetalle();
         System.out.println("Fecha: " + fechaProgramada.format(formatter));
         System.out.println("Mentor: " + mentor);

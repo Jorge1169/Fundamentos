@@ -62,7 +62,7 @@ public final class ValidadorAcademia {
 
     public static int validarDuracion(int duracionHoras) throws RecursoInvalidoException {
         if (duracionHoras <= 0) {
-            throw new RecursoInvalidoException("La duraciÃ³n debe ser mayor a cero.");
+            throw new RecursoInvalidoException("La duración debe ser mayor a cero.");
         }
 
         return duracionHoras;
@@ -70,7 +70,7 @@ public final class ValidadorAcademia {
 
     public static int validarPaginas(int numeroPaginas) throws RecursoInvalidoException {
         if (numeroPaginas <= 0) {
-            throw new RecursoInvalidoException("El nÃºmero de pÃ¡ginas debe ser mayor a cero.");
+            throw new RecursoInvalidoException("El número de páginas debe ser mayor a cero.");
         }
 
         return numeroPaginas;
@@ -92,7 +92,7 @@ public final class ValidadorAcademia {
         try {
             LocalDate fechaProgramada = LocalDate.parse(fechaTexto.trim(), FORMATO_FECHA);
             if (!fechaProgramada.isAfter(LocalDate.now())) {
-                throw new RecursoInvalidoException("La fecha debe ser posterior al dÃ­a de hoy.");
+                throw new RecursoInvalidoException("La fecha debe ser posterior al día de hoy.");
             }
 
             return fechaProgramada;

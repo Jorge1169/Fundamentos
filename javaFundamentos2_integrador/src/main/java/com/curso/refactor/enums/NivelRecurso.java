@@ -11,7 +11,7 @@ public enum NivelRecurso {
         try {
             return NivelRecurso.valueOf(valor.trim().toUpperCase());
         } catch (Exception e) {
-            throw new RecursoInvalidoException("El nivel solo puede ser BASICO, INTERMEDIO o AVANZADO.");
+            throw new RecursoInvalidoException("El nivel solo puede ser BÁSICO, INTERMEDIO o AVANZADO.");
         }
     }
 }

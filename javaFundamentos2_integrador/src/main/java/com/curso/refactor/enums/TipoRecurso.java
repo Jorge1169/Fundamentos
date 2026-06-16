@@ -11,7 +11,7 @@ public enum TipoRecurso {
         try {
             return TipoRecurso.valueOf(valor.trim().toUpperCase());
         } catch (Exception e) {
-            throw new RecursoInvalidoException("El tipo solo puede ser VIDEO, PDF o MENTORIA.");
+            throw new RecursoInvalidoException("El tipo solo puede ser VIDEO, PDF o MENTORÍA.");
         }
     }
 }

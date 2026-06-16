@@ -22,7 +22,7 @@ public class JavaFundamentos2 {
 
         do {
             mostrarMenu();
-            opcion = leerEntero("Seleccione una opciÃ³n: ");
+            opcion = leerEntero("Seleccione una opción: ");
 
             switch (opcion) {
                 case 1 -> registrarCursoVideo();
@@ -36,7 +36,7 @@ public class JavaFundamentos2 {
                 case 9 -> academiaService.mostrarResumenPorNivel();
                 case 10 -> academiaService.ejecutarEjemplosModulo5();
                 case 11 -> System.out.println("Saliendo del sistema...");
-                default -> System.out.println("OpciÃ³n invÃ¡lida.");
+                default -> System.out.println("Opción inválida.");
             }
 
         } while (opcion != 11);
@@ -48,15 +48,15 @@ public class JavaFundamentos2 {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         ejecutarOperacionSegura("Carga inicial video", () ->
-                academiaService.registrarCursoVideo("Java BÃ¡sico", 1200, "BASICO", 8,
+                academiaService.registrarCursoVideo("Java Básico", 1200, "BASICO", 8,
                         "https://academia.com/java_basico.mp4", "MP4"));
 
         ejecutarOperacionSegura("Carga inicial PDF", () ->
-                academiaService.registrarCursoPdf("GuÃ­a POO", 400, "INTERMEDIO", 3,
+                academiaService.registrarCursoPdf("Guía POO", 400, "INTERMEDIO", 3,
                         "https://academia.com/poo.pdf", "PDF"));
 
-        ejecutarOperacionSegura("Carga inicial mentorÃ­a", () ->
-                academiaService.registrarMentoria("MentorÃ­a Spring", 1800, "AVANZADO",
+        ejecutarOperacionSegura("Carga inicial mentoría", () ->
+                academiaService.registrarMentoria("Mentoría Spring", 1800, "AVANZADO",
                         LocalDate.now().plusDays(5).format(formatter), "Jorge"));
     }
 
@@ -65,11 +65,11 @@ public class JavaFundamentos2 {
         System.out.println("===== ACADEMIA JAVA FUNDAMENTOS 2 =====");
         System.out.println("1. Registrar curso en video");
         System.out.println("2. Registrar curso PDF");
-        System.out.println("3. Registrar mentorÃ­a");
+        System.out.println("3. Registrar mentoría");
         System.out.println("4. Modificar curso en video");
         System.out.println("5. Modificar curso PDF");
-        System.out.println("6. Modificar mentorÃ­a");
-        System.out.println("7. Mostrar catÃ¡logo");
+        System.out.println("6. Modificar mentoría");
+        System.out.println("7. Mostrar catálogo");
         System.out.println("8. Buscar recurso por tipo y nombre");
         System.out.println("9. Mostrar resumen por nivel");
         System.out.println("10. Ejecutar ejemplos MÃ³dulo 5");
@@ -81,7 +81,7 @@ public class JavaFundamentos2 {
         String nombre = leerTexto("Nombre: ");
         double precio = leerDouble("Precio base: ");
         String nivel = leerTexto("Nivel (BASICO, INTERMEDIO, AVANZADO): ");
-        int duracion = leerEntero("DuraciÃ³n en horas: ");
+        int duracion = leerEntero("Duración en horas: ");
         String url = leerTexto("URL de descarga: ");
         String formato = leerTexto("Formato de video (MP4, WEBM, AVI): ");
 
@@ -94,7 +94,7 @@ public class JavaFundamentos2 {
         String nombre = leerTexto("Nombre: ");
         double precio = leerDouble("Precio base: ");
         String nivel = leerTexto("Nivel (BASICO, INTERMEDIO, AVANZADO): ");
-        int paginas = leerEntero("NÃºmero de pÃ¡ginas: ");
+        int paginas = leerEntero("Número de páginas: ");
         String url = leerTexto("URL de descarga: ");
         String formato = leerTexto("Formato documento (PDF, EPUB): ");
 
@@ -103,14 +103,14 @@ public class JavaFundamentos2 {
     }
 
     private static void registrarMentoria() {
-        System.out.println("\n=== Registrar mentorÃ­a ===");
+        System.out.println("\n=== Registrar mentoría ===");
         String nombre = leerTexto("Nombre: ");
         double precio = leerDouble("Precio base: ");
         String nivel = leerTexto("Nivel (BASICO, INTERMEDIO, AVANZADO): ");
         String fecha = leerTexto("Fecha programada (dd/MM/yyyy): ");
         String mentor = leerTexto("Nombre del mentor: ");
 
-        ejecutarOperacionSegura("Registrar mentorÃ­a", () ->
+        ejecutarOperacionSegura("Registrar mentoría", () ->
                 academiaService.registrarMentoria(nombre, precio, nivel, fecha, mentor));
     }
 
@@ -120,7 +120,7 @@ public class JavaFundamentos2 {
         String nuevoNombre = leerTexto("Nuevo nombre: ");
         double nuevoPrecio = leerDouble("Nuevo precio base: ");
         String nuevoNivel = leerTexto("Nuevo nivel: ");
-        int nuevaDuracion = leerEntero("Nueva duraciÃ³n en horas: ");
+        int nuevaDuracion = leerEntero("Nueva duración en horas: ");
         String nuevaUrl = leerTexto("Nueva URL: ");
         String nuevoFormato = leerTexto("Nuevo formato: ");
 
@@ -135,7 +135,7 @@ public class JavaFundamentos2 {
         String nuevoNombre = leerTexto("Nuevo nombre: ");
         double nuevoPrecio = leerDouble("Nuevo precio base: ");
         String nuevoNivel = leerTexto("Nuevo nivel: ");
-        int nuevasPaginas = leerEntero("Nuevo nÃºmero de pÃ¡ginas: ");
+        int nuevasPaginas = leerEntero("Nuevo número de páginas: ");
         String nuevaUrl = leerTexto("Nueva URL: ");
         String nuevoFormato = leerTexto("Nuevo formato: ");
 
@@ -145,7 +145,7 @@ public class JavaFundamentos2 {
     }
 
     private static void modificarMentoria() {
-        System.out.println("\n=== Modificar mentorÃ­a ===");
+        System.out.println("\n=== Modificar mentoría ===");
         String nombreActual = leerTexto("Nombre actual: ");
         String nuevoNombre = leerTexto("Nuevo nombre: ");
         double nuevoPrecio = leerDouble("Nuevo precio base: ");
@@ -153,7 +153,7 @@ public class JavaFundamentos2 {
         String nuevaFecha = leerTexto("Nueva fecha (dd/MM/yyyy): ");
         String nuevoMentor = leerTexto("Nuevo mentor: ");
 
-        ejecutarOperacionSegura("Modificar mentorÃ­a", () ->
+        ejecutarOperacionSegura("Modificar mentoría", () ->
                 academiaService.modificarMentoria(nombreActual, nuevoNombre, nuevoPrecio, nuevoNivel,
                         nuevaFecha, nuevoMentor));
     }
@@ -166,7 +166,7 @@ public class JavaFundamentos2 {
             Optional<RecursoAcademico> recurso = academiaService.buscarPorTipoYNombre(tipo, nombre);
             recurso.ifPresentOrElse(
                     RecursoAcademico::mostrarDetalle,
-                    () -> System.out.println("No se encontrÃ³ el recurso."));
+                    () -> System.out.println("No se encontró el recurso."));
         });
     }
 
@@ -189,7 +189,7 @@ public class JavaFundamentos2 {
                 System.out.print(mensaje);
                 return Integer.parseInt(scanner.nextLine());
             } catch (NumberFormatException e) {
-                System.out.println("Error: debe ingresar un nÃºmero entero.");
+                System.out.println("Error: debe ingresar un número entero.");
             }
         }
     }
@@ -200,7 +200,7 @@ public class JavaFundamentos2 {
                 System.out.print(mensaje);
                 return Double.parseDouble(scanner.nextLine());
             } catch (NumberFormatException e) {
-                System.out.println("Error: debe ingresar un nÃºmero vÃ¡lido.");
+                System.out.println("Error: debe ingresar un número válido.");
             }
         }
     }

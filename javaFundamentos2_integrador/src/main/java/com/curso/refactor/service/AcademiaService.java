@@ -58,7 +58,7 @@ public class AcademiaService {
         validarDuplicado(TipoRecurso.MENTORIA, mentoria.getNombre(), -1);
         validarPrecioFinal(mentoria);
         recursos.add(mentoria);
-        System.out.println("MentorÃ­a registrada correctamente.");
+        System.out.println("Mentoría registrada correctamente.");
     }
 
     public void modificarCursoVideo(String nombreActual, String nuevoNombre, double nuevoPrecio,
@@ -88,7 +88,7 @@ public class AcademiaService {
         validarDuplicado(TipoRecurso.MENTORIA, mentoria.getNombre(), indice);
         validarPrecioFinal(mentoria);
         recursos.set(indice, mentoria);
-        System.out.println("MentorÃ­a modificada correctamente.");
+        System.out.println("Mentoría modificada correctamente.");
     }
 
     public void mostrarCatalogo() {
@@ -97,7 +97,7 @@ public class AcademiaService {
             return;
         }
 
-        System.out.println("\n===== CATÃLOGO =====");
+        System.out.println("\n===== CATÁLOGO =====");
 
         recursos.forEach(recurso -> {
             recurso.mostrarDetalle();
@@ -219,7 +219,7 @@ public class AcademiaService {
                         && recursos.get(i).getNombre().equalsIgnoreCase(nombreNormalizado))
                 .findFirst()
                 .orElseThrow(() -> new RecursoNoEncontradoException(
-                        "No se encontrÃ³ un recurso de tipo " + tipo.name() + " con el nombre: " + nombreNormalizado));
+                        "No se encontró un recurso de tipo " + tipo.name() + " con el nombre: " + nombreNormalizado));
     }
 }
 
