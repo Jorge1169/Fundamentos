@@ -12,7 +12,7 @@ public class GuiaRefactorizacion {
         System.out.println("5. Centralizar try-catch del Main con OperacionAcademia.");
         System.out.println("6. Mantener herencia e interfaces.");
         System.out.println("7. Evitar métodos largos.");
-        System.out.println("8. Crear clases o records para datos validados si ayuda.");
+        System.out.println("8. Crear clases o records para datos validados si ayuda9.");
     }
 }
 
