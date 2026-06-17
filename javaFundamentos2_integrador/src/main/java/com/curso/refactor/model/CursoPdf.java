@@ -58,7 +58,7 @@ public class CursoPdf extends RecursoDigital implements Certificable {
     public void mostrarDetalle() {
         System.out.println("=== Curso PDF ===");
         super.mostrarDetalle();
-        System.out.println("PÃ¡ginas: " + numeroPaginas);
+        System.out.println("Páginas: " + numeroPaginas);
         System.out.println("Formato: " + formatoDocumento.name());
     }
 }

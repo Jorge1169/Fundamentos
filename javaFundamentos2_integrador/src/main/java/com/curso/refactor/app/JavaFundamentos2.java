@@ -72,7 +72,7 @@ public class JavaFundamentos2 {
         System.out.println("7. Mostrar catálogo");
         System.out.println("8. Buscar recurso por tipo y nombre");
         System.out.println("9. Mostrar resumen por nivel");
-        System.out.println("10. Ejecutar ejemplos MÃ³dulo 5");
+        System.out.println("10. Ejecutar ejemplos Módulo 5");
         System.out.println("11. Salir");
     }
 

@@ -64,7 +64,7 @@ public class CursoVideo extends RecursoDigital implements Reproducible, Certific
     public void mostrarDetalle() {
         System.out.println("=== Curso en video ===");
         super.mostrarDetalle();
-        System.out.println("DuraciÃ³n: " + duracionHoras + " horas");
+        System.out.println("Duración: " + duracionHoras + " horas");
         System.out.println("Formato: " + formatoVideo.name());
     }
 }
